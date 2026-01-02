@@ -59,7 +59,7 @@ export default function Home() {
         {/* Links */}
         <div className="flex gap-8 text-xs text-gray-600 mt-6">
           <a href="https://discord.com/users/1435818893749784680" className="hover:text-gray-400 transition-colors">
-            discord
+            discord ( GOT TERM )
           </a>
           <a href="https://x.com/xx_racecar_xx" className="hover:text-gray-400 transition-colors">
             twitter
