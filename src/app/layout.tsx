@@ -15,17 +15,17 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "racecar.cc",
-  description: "Anti-Cheat Analyst @ Epic Games",
+  description: "@ Epic Games",
   openGraph: {
     title: "racecar.cc",
-    description: "Anti-Cheat Analyst @ Epic Games",
+    description: "@ Epic Games",
     type: "website",
     siteName: "racecar.cc",
   },
   twitter: {
     card: "summary",
     title: "racecar.cc",
-    description: "Anti-Cheat Analyst @ Epic Games",
+    description: "@ Epic Games",
   },
 };
 
