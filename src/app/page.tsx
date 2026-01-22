@@ -5,30 +5,59 @@ import LightPillar from '@/components/backgrounds/LightPillar'
 
 export default function Home() {
   const [time, setTime] = useState('')
+  const [locationLabel, setLocationLabel] = useState('')
 
   useEffect(() => {
     const updateTime = () => {
       const now = new Date()
-      const melbourneTime = new Intl.DateTimeFormat('en-AU', {
-        timeZone: 'Australia/Melbourne',
+      const localTime = new Intl.DateTimeFormat(undefined, {
         hour: '2-digit',
         minute: '2-digit',
         hour12: false,
       }).format(now)
 
-      const melbourneDate = new Intl.DateTimeFormat('en-AU', {
-        timeZone: 'Australia/Melbourne',
+      const localDate = new Intl.DateTimeFormat(undefined, {
         month: 'short',
         day: 'numeric',
       }).format(now)
 
-      setTime(`${melbourneTime} · ${melbourneDate}`)
+      setTime(`${localTime} · ${localDate}`)
     }
 
     updateTime()
     const interval = setInterval(updateTime, 1000)
 
     return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+    if (typeof window === 'undefined') return
+
+    if (!('geolocation' in navigator)) {
+      setLocationLabel(tz)
+      return
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        try {
+          const lat = pos.coords.latitude
+          const lon = pos.coords.longitude
+          const res = await fetch(`/api/reverse-geocode?lat=${lat}&lon=${lon}`)
+          const data = await res.json()
+          const label = typeof data?.label === 'string' ? data.label : ''
+          setLocationLabel(label || tz)
+        } catch {
+          setLocationLabel(tz)
+        }
+      },
+      () => {
+        setLocationLabel(tz)
+      },
+      { maximumAge: 10 * 60 * 1000, timeout: 8000 }
+    )
   }, [])
 
   return (
@@ -74,14 +103,14 @@ export default function Home() {
         </div>
 
         {/* Links */}
-        <div className="flex gap-8 text-xs text-white mt-6">
-          <a href="https://discord.com/users/1435818893749784680" className="hover:text-gray-400 transition-colors tiktok-sans" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
+        <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
+          <a href="https://discord.com/users/1435818893749784680" className="uiverse-link-button tiktok-sans">
             discord
           </a>
-          <a href="https://x.com/xx_racecar_xx" className="hover:text-gray-400 transition-colors tiktok-sans" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
+          <a href="https://x.com/xx_racecar_xx" className="uiverse-link-button tiktok-sans">
             twitter
           </a>
-          <a href="https://t.me/racecarX" className="hover:text-gray-400 transition-colors tiktok-sans" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
+          <a href="https://t.me/racecarX" className="uiverse-link-button tiktok-sans">
             telegram
           </a>
         </div>
@@ -89,7 +118,7 @@ export default function Home() {
 
       {/* Time - bottom left corner */}
       <div className="absolute bottom-4 left-4 text-xs text-white tiktok-sans" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
-        {time}
+        {locationLabel ? `${time} · ${locationLabel}` : time}
       </div>
     </div>
   )
