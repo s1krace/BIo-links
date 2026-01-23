@@ -79,13 +79,13 @@ export default function Home() {
 
         {/* Links */}
         <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
-          <a href="https://discord.com/users/1456460012460445779" className="uiverse-link-button tiktok-sans">
+          <a href="https://discord.com/users/1456460012460445779" className="uiverse-link-button tiktok-sans" target="_blank" rel="noopener noreferrer">
             discord
           </a>
-          <a href="https://x.com/xx_racecar_xx" className="uiverse-link-button tiktok-sans">
+          <a href="https://x.com/xx_racecar_xx" className="uiverse-link-button tiktok-sans" target="_blank" rel="noopener noreferrer">
             twitter
           </a>
-          <a href="https://t.me/racecarX" className="uiverse-link-button tiktok-sans">
+          <a href="https://t.me/racecarX" className="uiverse-link-button tiktok-sans" target="_blank" rel="noopener noreferrer">
             telegram
           </a>
         </div>
